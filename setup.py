@@ -2,9 +2,15 @@ from cx_Freeze import setup, Executable
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
-includefiles = ['README.md', 'LICENSE', 'bin/primitive_darwin_amd64', 'bin/primitive_linux_amd64',
-                'bin/primitive_linux_arm', 'bin/primitive_linux_arm64', 'bin/primitive_windows_amd64.exe']
-buildOptions = dict(packages=[], excludes=[])
+
+buildOptions = dict(packages=['tkinter'], includes=['tkinter'], excludes=[],
+                    include_files=['README.md',
+                                   'LICENSE',
+                                   ('bin/primitive_darwin_amd64', 'bin/primitive_darwin_amd64'),
+                                   ('bin/primitive_linux_amd64', 'bin/primitive_linux_amd64'),
+                                   ('bin/primitive_linux_arm', 'bin/primitive_linux_arm'),
+                                   ('bin/primitive_linux_arm64', 'bin/primitive_linux_arm64'),
+                                   ('bin/primitive_windows_amd64.exe', 'bin/primitive_windows_amd64.exe')])
 
 import sys
 

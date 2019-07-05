@@ -16,8 +16,8 @@ else:
 bin_path = appdir + '/bin'
 global or_image
 or_image = ''
-root = Tk()
-
+execlist = ['primitive_darwin_amd64', 'primitive_linux_amd64', 'primitive_windows_amd64.exe', 'primitive_linux_arm',
+            'primitive_linux_arm64']
 
 def select_file():
     global or_image
@@ -64,15 +64,40 @@ def vectorize():
         mb.showinfo('Success!', 'Done.')
 
 
-root.title('Vectorizer 3000')
-root.geometry('500x150+300+200')
+def init2():
+    status['text'] = 'Checking Files...'
+    for biname in execlist:
+        if os.path.exists(bin_path + '/' + biname):
+            print(biname + ': OK')
+        else:
+            mb.showerror('b0rken', "Can't find " + biname)
+            quit()
+    status['text'] = 'Done.'
+
+    status.destroy()
+    canvas.destroy()
+
+    root.title('Vectorizer 3000')
+    root.geometry('500x150+300+200')
+    root.resizable(False, False)
+    logo = Label(text='VECTORIZER 3000', font='papyrus 35')
+    select_f = Button(text='Select File', command=select_file)
+    vec_start = Button(text='Start', command=chk_file)
+    note = Label(text="NOTE: Resulting files will appear in executable's directory")
+    logo.pack()
+    select_f.pack()
+    vec_start.pack()
+    note.pack()
+
+
+root = Tk()
 root.resizable(False, False)
-logo = Label(text='VECTORIZER 3000', font='papyrus 35')
-select_f = Button(text='Select File', command=select_file)
-vec_start = Button(text='Start', command=chk_file)
-note = Label(text="NOTE: Resulting files will appear in executable's directory")
-logo.pack()
-select_f.pack()
-vec_start.pack()
-note.pack()
+root.title('L0aDiNg...')
+canvas = Canvas(root, width=373, height=140)
+canvas.pack()
+img = PhotoImage(file=appdir + '/slogo.png')
+canvas.create_image(10, 10, anchor=NW, image=img)
+status = Label(text='Initializing...')
+status.pack()
+root.after(500, init2)
 root.mainloop()
