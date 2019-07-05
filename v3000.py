@@ -7,8 +7,12 @@ from tkinter import messagebox as mb
 
 from PIL import Image
 
-appf = os.path.realpath(__file__)
-appdir = os.path.dirname(appf)
+if getattr(sys, 'frozen', False):
+    # frozen
+    appdir = os.path.dirname(sys.executable)
+else:
+    # unfrozen
+    appdir = os.path.dirname(os.path.realpath(__file__))
 bin_path = appdir + '/bin'
 global or_image
 or_image = ''
