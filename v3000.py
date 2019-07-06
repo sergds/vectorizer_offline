@@ -1,6 +1,6 @@
 import os
 import platform
-from random import randint
+from random import randint, choice
 from tkinter import *
 from tkinter import filedialog as fd
 from tkinter import messagebox as mb
@@ -14,10 +14,14 @@ else:
     # unfrozen
     appdir = os.path.dirname(os.path.realpath(__file__))
 bin_path = appdir + '/bin'
+global clim
+clim = ''
 global or_image
 or_image = ''
 execlist = ['primitive_darwin_amd64', 'primitive_linux_amd64', 'primitive_windows_amd64.exe', 'primitive_linux_arm',
             'primitive_linux_arm64']
+
+err_str = ['b0rken', 'Yo :(', 'Fish ate a cat', '3000 / 0']
 
 def select_file():
     global or_image
@@ -29,11 +33,11 @@ def chk_file():
         im = Image.open(or_image)
         h, w = im.size
         if h > 1920 and w > 1080:
-            mb.showerror("b0rken", "Max Resolution is 1920x1080(Full HD)!!")
+            mb.showerror(choice(err_str), "Max Resolution is 1920x1080(Full HD)!!")
         else:
             vectorize()
     else:
-        mb.showerror("b0rken", "No file selected!!")
+        mb.showerror(choice(err_str), "No file selected!!")
 
 
 def vectorize():
@@ -57,6 +61,7 @@ def vectorize():
         arm_mode = 1
         executable = 'primitive_linux_arm64'
     if arm_mode == 1:
+        global clim
         clim = '%s/%s -m 1 -v -n 100 -o %s/%s.png -i %s' % (bin_path, executable, appdir, jn, or_image)
     else:
         clim = '%s/%s -m 1 -v -n 145 -o %s/%s.png -i %s' % (bin_path, executable, appdir, jn, or_image)
@@ -70,7 +75,7 @@ def init2():
         if os.path.exists(bin_path + '/' + biname):
             print(biname + ': OK')
         else:
-            mb.showerror('b0rken', "Can't find " + biname)
+            mb.showerror(choice(err_str), "Can't find " + biname)
             quit()
     status['text'] = 'Done.'
 
