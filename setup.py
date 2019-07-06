@@ -5,6 +5,7 @@ from cx_Freeze import setup, Executable
 
 buildOptions = dict(packages=['tkinter'], includes=['tkinter'], excludes=[],
                     include_files=['README.md',
+                                   'slogo.png',
                                    'LICENSE',
                                    ('bin/primitive_darwin_amd64', 'bin/primitive_darwin_amd64'),
                                    ('bin/primitive_linux_amd64', 'bin/primitive_linux_amd64'),
