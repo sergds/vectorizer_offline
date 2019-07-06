@@ -20,7 +20,7 @@ global or_image
 or_image = ''
 execlist = ['primitive_darwin_amd64', 'primitive_linux_amd64', 'primitive_windows_amd64.exe', 'primitive_linux_arm',
             'primitive_linux_arm64']
-
+fmts = {'.svg', '.png', '.jpg'}
 err_str = ['b0rken', 'Yo :(', 'Fish ate a cat', '3000 / 0']
 
 def select_file():
@@ -41,10 +41,38 @@ def chk_file():
 
 
 def vectorize():
-    host_os = platform.system()
-    host_abi = platform.machine()
     jn = randint(1, 10000)
+    global clim
+    clim = '%s/%s -m 1 -v -n %s -o %s/%s%s -i %s' % (
+    bin_path, executable, pbox_var.get(), appdir, jn, curr_fmt, or_image)
+    os.system(clim)
+    mb.showinfo('Success!', 'Done.')
+
+
+def change_dropdown(*args):
+    global curr_fmt
+    print('Out format is ' + tkvar.get())
+    curr_fmt = tkvar.get()
+
+
+def init2():
+    global tkvar
+    tkvar = StringVar(root)
+    tkvar.set('.png')
+    global pbox_var
+    pbox_var = StringVar()
+    global curr_fmt
+    curr_fmt = '.png'
+    global host_os
+    host_os = platform.system()
+    global host_abi
+    host_abi = platform.machine()
     print('Host os is' + host_os)
+    global iters
+    iters = 0
+    global executable
+    executable = ''
+    global arm_mode
     arm_mode = 0
     if host_os == 'Darwin':
         executable = 'primitive_darwin_amd64'
@@ -62,15 +90,10 @@ def vectorize():
         arm_mode = 1
         executable = 'primitive_linux_arm64'
     if arm_mode == 1:
-        global clim
-        clim = '%s/%s -m 1 -v -n 100 -o %s/%s.png -i %s' % (bin_path, executable, appdir, jn, or_image)
+        iters = 100
     else:
-        clim = '%s/%s -m 1 -v -n 145 -o %s/%s.png -i %s' % (bin_path, executable, appdir, jn, or_image)
-        os.system(clim)
-        mb.showinfo('Success!', 'Done.')
-
-
-def init2():
+        iters = 145
+    pbox_var.set(iters)
     status['text'] = 'Checking Files...'
     for biname in execlist:
         if os.path.exists(bin_path + '/' + biname):
@@ -84,16 +107,27 @@ def init2():
     canvas.destroy()
 
     root.title('Vectorizer 3000')
-    root.geometry('500x150+300+200')
+    root.geometry('500x250+300+200')
     root.resizable(False, False)
+    sel_fmt = OptionMenu(root, tkvar, *fmts)
     logo = Label(text='VECTORIZER 3000', font='papyrus 35')
     select_f = Button(text='Select File', command=select_file)
     vec_start = Button(text='Start', command=chk_file)
+    note1 = Label(text="Choose the output format:")
+    note2 = Label(text="Enter primitives count:")
+    pbox = Entry(textvariable=pbox_var)
     note = Label(text="NOTE: Resulting files will appear in executable's directory")
     logo.pack()
     select_f.pack()
+    note1.pack()
+    sel_fmt.pack()
+    note2.pack()
+    pbox.pack()
+    # pbox.insert(0, iters)
     vec_start.pack()
     note.pack()
+    tkvar.trace('w', change_dropdown)
+
 
 
 root = Tk()
