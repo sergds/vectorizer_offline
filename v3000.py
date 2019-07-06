@@ -42,6 +42,7 @@ def chk_file():
 
 def vectorize():
     host_os = platform.system()
+    host_abi = platform.machine()
     jn = randint(1, 10000)
     print('Host os is' + host_os)
     arm_mode = 0
@@ -51,13 +52,13 @@ def vectorize():
         executable = 'primitive_linux_amd64'
     if host_os == 'Windows':
         executable = 'primitive_windows_amd64.exe'
-    if host_os == 'arm':
+    if host_abi == 'arm':
         arm_mode = 1
         executable = 'primitive_linux_arm'
-    if host_os == 'armv7l':
+    if host_abi == 'armv7l':
         arm_mode = 1
         executable = 'primitive_linux_arm'
-    if host_os == 'aarch64':
+    if host_abi == 'aarch64':
         arm_mode = 1
         executable = 'primitive_linux_arm64'
     if arm_mode == 1:
