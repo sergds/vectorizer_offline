@@ -43,7 +43,7 @@ def chk_file():
 def vectorize():
     jn = randint(1, 10000)
     global clim
-    clim = '%s/%s -m 1 -v -n %s -o %s/%s%s -i %s' % (
+    clim = '"%s/%s" -m 1 -v -n %s -o "%s/%s%s" -i "%s"' % (
     bin_path, executable, pbox_var.get(), appdir, jn, curr_fmt, or_image)
     os.system(clim)
     mb.showinfo('Success!', 'Done.')
