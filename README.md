@@ -1,6 +1,6 @@
 # Vectorizer (Desktop)
 
-[LINUX BUILDS](https://gitlab.com/sergds/vectorizer)
+[LINUX BUILDS](https://gitlab.com/sergds/vectorizer_offline)
 
 Desktop Version of [vectorizer](https://github.com/sergds/vectorizer)
 
