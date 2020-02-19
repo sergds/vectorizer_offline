@@ -135,7 +135,7 @@ def init2():
 
 
 root = Tk()
-loadingText = Stringvar()
+loadingText = StringVar()
 root.resizable(False, False)
 root.title('L0aDiNg...')
 canvas = Canvas(root, width=373, height=140)
@@ -143,7 +143,7 @@ canvas.pack()
 img = PhotoImage(file=appdir + '/slogo.png')
 canvas.create_image(10, 10, anchor=NW, image=img)
 UpdateLoadStatus('Initializing...')
-status = Label(text=loadingText)
+status = Label(text=loadingText.get())
 status.pack()
 root.after(500, init2)
 root.mainloop()
