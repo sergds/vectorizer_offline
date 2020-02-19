@@ -19,7 +19,7 @@ before_script:
   - pip install virtualenv
   - virtualenv venv
   - source venv/bin/activate
-runl:lin:
+lin:
   image: python:latest
   script:
     - pip install Pillow cx_freeze
