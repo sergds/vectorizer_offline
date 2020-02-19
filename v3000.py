@@ -28,7 +28,7 @@ def select_file():
     or_image = fd.askopenfilename(filetypes=(('JPEG Image', '*.jpg'), ('PNG Image', '*.png')))
 
 def UpdateLoadStatus(txt)
-    loadingText.set(txt)
+	loadingText.set(txt)
     
 def chk_file():
     if not or_image == '':
