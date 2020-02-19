@@ -4,7 +4,7 @@ from random import randint, choice
 from tkinter import *
 from tkinter import filedialog as fd
 from tkinter import messagebox as mb
-
+import time
 from PIL import Image
 
 if getattr(sys, 'frozen', False):
@@ -21,13 +21,15 @@ or_image = ''
 execlist = ['primitive_darwin_amd64', 'primitive_linux_amd64', 'primitive_windows_amd64.exe', 'primitive_linux_arm',
             'primitive_linux_arm64']
 fmts = {'.svg', '.png', '.jpg'}
-err_str = ['b0rken', 'Yo :(', 'Fish ate a cat', '3000 / 0']
+err_str = ['b0rken', 'Yo :(', 'Fish ate a cat', 'Space / 0', 'Moment of silence...']
 
 def select_file():
     global or_image
     or_image = fd.askopenfilename(filetypes=(('JPEG Image', '*.jpg'), ('PNG Image', '*.png')))
 
-
+def UpdateLoadStatus(txt)
+    loadingText.set(txt)
+    
 def chk_file():
     if not or_image == '':
         im = Image.open(or_image)
@@ -67,7 +69,9 @@ def init2():
     host_os = platform.system()
     global host_abi
     host_abi = platform.machine()
-    print('Host os is' + host_os)
+    print('Host is ' + host_os)
+    if host_os == 'Linux':
+        print('Nice choice ;)')
     global iters
     iters = 0
     global executable
@@ -94,15 +98,15 @@ def init2():
     else:
         iters = 145
     pbox_var.set(iters)
-    status['text'] = 'Checking Files...'
+    UpdateLoadStatus('Checking Files...')
     for biname in execlist:
         if os.path.exists(bin_path + '/' + biname):
             print(biname + ': OK')
         else:
             mb.showerror(choice(err_str), "Can't find " + biname)
             quit()
-    status['text'] = 'Done.'
-
+    UpdateLoadStatus('Done.')
+    time.sleep(1)
     status.destroy()
     canvas.destroy()
 
@@ -131,13 +135,15 @@ def init2():
 
 
 root = Tk()
+loadingText = Stringvar()
 root.resizable(False, False)
 root.title('L0aDiNg...')
 canvas = Canvas(root, width=373, height=140)
 canvas.pack()
 img = PhotoImage(file=appdir + '/slogo.png')
 canvas.create_image(10, 10, anchor=NW, image=img)
-status = Label(text='Initializing...')
+UpdateLoadStatus('Initializing...')
+status = Label(text=loadingText)
 status.pack()
 root.after(500, init2)
 root.mainloop()
